@@ -1,3 +1,37 @@
+Requisitos previos:
+
+1. Asegúrate de tener instalado Node.js en tu sistema. Puedes descargarlo e instalarlo desde nodejs.org.
+2. También necesitarás tener npm. Estos vienen incluidos con Node.js, así que si instalaste Node.js, deberías tenerlos disponible
+3. Necesitaras instalar Vite para correr el Frontend.
+
+Pasos para ejecutar la aplicación:
+
+Clona el repositorio desde GitHub:
+
+
+
+git clone https://github.com/Brandoncg95/prueba__hesego.git
+Accede al directorio del proyecto:
+
+
+cd prueba__hesego
+Instala las dependencias del proyecto ejecutando:
+npm install
+
+Configura las variables de entorno:
+
+Crea un archivo .env en la raíz del proyecto.
+Copia el contenido del archivo .env.example y pega en el archivo .env.
+Modifica las variables de entorno según sea necesario, especialmente las relacionadas con la base de datos y el puerto.
+Ejecuta el servidor de desarrollo:
+
+Copiar código
+npm run dev
+La aplicación estará disponible en tu navegador en la siguiente dirección:
+
+Copiar código
+http://localhost:3000
+
 Estructura de la Aplicación de Lista de Tareas.
  
 
