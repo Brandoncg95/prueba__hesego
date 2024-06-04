@@ -1,0 +1,185 @@
+Estructura de la Aplicación de Lista de Tareas.
+ 
+
+Documentación de la Aplicación Lista de tareas
+Descripción
+Lista de tareas es una aplicación de gestión de tareas que permite a los usuarios realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en tareas. La aplicación también incluye un sistema de autenticación de usuarios que permite a los usuarios registrarse, iniciar sesión y cerrar sesión de manera segura.
+Características Principales
+•	Autenticación de Usuarios: Los usuarios pueden registrarse, iniciar sesión y cerrar sesión en la aplicación.
+•	Gestión de Tareas: Los usuarios pueden ver, crear, editar y eliminar tareas.
+•	Seguridad: La aplicación utiliza técnicas de seguridad como encriptación de contraseñas y generación de tokens JWT para proteger la información del usuario.
+Estructura del Proyecto
+El proyecto está organizado en varias partes:
+•	Backend: La lógica del servidor está implementada en Node.js utilizando Express.js. Se comunica con la base de datos PostgreSQL y proporciona una API RESTful para interactuar con la aplicación.
+•	Frontend: La interfaz de usuario está construida con React.js. Utiliza componentes reutilizables y se comunica con el backend a través de solicitudes HTTP para mostrar y manipular datos de tareas.
+•	Base de Datos: La aplicación utiliza PostgreSQL como base de datos relacional para almacenar la información del usuario y las tareas.
+•	Middlewares y Validaciones: Se utilizan middlewares y esquemas de validación para garantizar la seguridad de la aplicación y validar los datos de entrada del usuario.
+
+Documentación del Código
+1. task.sql
+Descripción:
+Este script SQL define la estructura de la tabla task y la tabla users en una base de datos. La tabla task almacena información sobre las tareas, mientras que la tabla users almacena información sobre los usuarios.
+Estructura de la Tabla task:
+•	id: Identificador único de la tarea (tipo: SERIAL).
+•	title: Título de la tarea (tipo: VARCHAR(255), único, no nulo).
+•	description: Descripción de la tarea (tipo: TEXT).
+•	user_id: Identificador del usuario al que pertenece la tarea (tipo: INTEGER, referencia a la columna id en la tabla users).
+Estructura de la Tabla users:
+•	id: Identificador único del usuario (tipo: SERIAL).
+•	name: Nombre del usuario (tipo: VARCHAR(255), no nulo).
+•	password: Contraseña del usuario (tipo: VARCHAR(255), no nulo).
+•	email: Correo electrónico del usuario (tipo: VARCHAR(255), único, no nulo).
+•	created_at: Fecha y hora de creación del registro (tipo: TIMESTAMP, valor predeterminado: CURRENT_TIMESTAMP).
+•	updated_at: Fecha y hora de actualización del registro (tipo: TIMESTAMP, valor predeterminado: CURRENT_TIMESTAMP).
+•	gravatar: URL del gravatar del usuario (tipo: VARCHAR(255)).
+2. axios.js
+Descripción:
+Este módulo define una instancia de Axios para realizar solicitudes HTTP al backend de la aplicación.
+Funcionalidades:
+•	baseURL: URL base para todas las solicitudes HTTP.
+•	client: Instancia de Axios con configuraciones personalizadas.
+•	Configuración de CORS: Se permite el uso de cookies de sesión en las solicitudes HTTP.
+3. api.js
+Descripción:
+Este módulo proporciona funciones de utilidad para realizar solicitudes HTTP al backend de la aplicación relacionadas con las tareas.
+Funciones:
+•	getAllTasksRequest(): Obtiene todas las tareas del backend.
+•	createTaskRequest(task): Crea una nueva tarea en el backend.
+•	deleteTaskRequest(id): Elimina una tarea del backend por su ID.
+•	getTaskRequest(id): Obtiene una tarea específica del backend por su ID.
+•	updateTaskRequest(id, task): Actualiza una tarea existente en el backend por su ID.
+4. Navbar.jsx
+Descripción:
+Este componente representa la barra de navegación superior de la aplicación.
+Funcionalidades:
+•	Mostrar rutas privadas y públicas: Muestra diferentes enlaces en función del estado de autenticación del usuario.
+•	Incluir enlaces de navegación: Los enlaces de navegación se muestran dinámicamente según el estado de autenticación del usuario y la ruta actual.
+5. TaskCard.jsx
+Descripción:
+Este componente representa una tarjeta que muestra información detallada sobre una tarea.
+Funcionalidades:
+•	Mostrar detalles de la tarea: Muestra el título y la descripción de una tarea.
+•	Editar y eliminar tareas: Proporciona botones para editar y eliminar la tarea.
+Configuración (config.js)
+Variables de entorno
+•	PORT: Puerto en el que se ejecutará el servidor. Si no se especifica, se utilizará el puerto 3000 por defecto.
+•	PG_PORT: Puerto de la base de datos PostgreSQL. Si no se especifica, se utilizará el puerto 5433 por defecto.
+•	PG_HOST: Host de la base de datos PostgreSQL. Si no se especifica, se utilizará "localhost" por defecto.
+•	PG_USER: Usuario de la base de datos PostgreSQL. Si no se especifica, se utilizará "postgres" por defecto.
+•	PG_PASSWORD: Contraseña de la base de datos PostgreSQL. Si no se especifica, se utilizará "cali1912" por defecto.
+•	PG_DATABASE: Nombre de la base de datos PostgreSQL. Si no se especifica, se utilizará "julio1995" por defecto.
+•	ORIGIN: Origen permitido para CORS. Si no se especifica, se utilizará "http://localhost:5173" por defecto.
+Base de Datos (db.js)
+pool
+•	Descripción: Pool de conexiones PostgreSQL para interactuar con la base de datos.
+•	Conexión: Se establece una conexión a la base de datos utilizando las variables de entorno PG_PORT, PG_HOST, PG_USER, PG_PASSWORD y PG_DATABASE.
+•	Eventos: Se maneja el evento "connect" para mostrar un mensaje cuando se establece la conexión.
+App (app.js)
+Middleware
+•	Descripción: Configura los middleware para la aplicación Express.
+•	morgan: Middleware de registro de solicitudes HTTP en la consola.
+•	cookieParser: Middleware para analizar cookies en las solicitudes.
+•	cors: Middleware para habilitar el intercambio de recursos entre diferentes orígenes.
+•	express.json(): Middleware para analizar el cuerpo de las solicitudes entrantes con formato JSON.
+•	express.urlencoded(): Middleware para analizar el cuerpo de las solicitudes entrantes con formato URL codificada.
+Rutas
+•	Descripción: Define las rutas principales de la aplicación.
+•	"/": Ruta de inicio que devuelve un mensaje de bienvenida.
+•	"/api/ping": Ruta para verificar el estado de la base de datos.
+•	"/api": Ruta principal para las operaciones relacionadas con las tareas.
+•	"/api/tasks": Ruta para las operaciones CRUD de las tareas.
+•	"/api/auth": Ruta para las operaciones de autenticación de usuarios.
+Gestión de Errores
+•	Descripción: Maneja los errores de la aplicación y devuelve una respuesta JSON con el mensaje de error.
+Middleware (auth.middleware.js)
+isAuth
+•	Descripción: Middleware para verificar la autenticación del usuario.
+•	Token: Verifica la presencia del token de acceso en las cookies de la solicitud.
+•	Decodificación: Decodifica el token y extrae el ID de usuario.
+•	Respuestas: Devuelve un error 401 si el token es inválido o no está presente.
+Middleware (validate.middleware.js)
+validateSchema
+•	Descripción: Middleware para validar los datos de entrada con un esquema Zod.
+•	Validación: Utiliza un esquema Zod para validar los datos de entrada en la solicitud.
+•	Errores: Devuelve una respuesta 400 con los mensajes de error si la validación falla.
+Auth Controller
+signin
+•	Descripción: Maneja la autenticación de un usuario existente.
+•	Método HTTP: POST
+•	Ruta: /signin
+•	Parámetros:
+o	email (string): Correo electrónico del usuario.
+o	password (string): Contraseña del usuario.
+•	Respuestas:
+o	200 OK: Devuelve los detalles del usuario y establece una cookie de token de acceso.
+o	400 Bad Request: Si el correo no está registrado o la contraseña es incorrecta.
+signup
+•	Descripción: Registra un nuevo usuario.
+•	Método HTTP: POST
+•	Ruta: /signup
+•	Parámetros:
+o	name (string): Nombre del usuario.
+o	email (string): Correo electrónico del usuario.
+o	password (string): Contraseña del usuario.
+•	Respuestas:
+o	200 OK: Devuelve los detalles del usuario registrado y establece una cookie de token de acceso.
+o	400 Bad Request: Si el correo ya está registrado.
+signout
+•	Descripción: Cierra la sesión de un usuario.
+•	Método HTTP: POST
+•	Ruta: /signout
+•	Respuestas:
+o	200 OK: Confirma el cierre de sesión y elimina la cookie de token de acceso.
+profile
+•	Descripción: Obtiene los detalles del perfil de un usuario autenticado.
+•	Método HTTP: GET
+•	Ruta: /profile
+•	Respuestas:
+o	200 OK: Devuelve los detalles del perfil del usuario autenticado.
+Task Controller
+getAllTasks
+•	Descripción: Obtiene todas las tareas de un usuario autenticado.
+•	Método HTTP: GET
+•	Ruta: /tasks
+•	Respuestas:
+o	200 OK: Devuelve un array de todas las tareas del usuario.
+getTask
+•	Descripción: Obtiene los detalles de una tarea específica.
+•	Método HTTP: GET
+•	Ruta: /tasks/
+•	Parámetros:
+o	id (string): Identificador único de la tarea.
+•	Respuestas:
+o	200 OK: Devuelve los detalles de la tarea.
+o	404 Not Found: Si la tarea no existe.
+createTask
+•	Descripción: Crea una nueva tarea para un usuario autenticado.
+•	Método HTTP: POST
+•	Ruta: /tasks
+•	Parámetros:
+o	title (string): Título de la tarea.
+o	description (string): Descripción opcional de la tarea.
+•	Respuestas:
+o	200 OK: Devuelve los detalles de la tarea creada.
+o	409 Conflict: Si ya existe una tarea con el mismo título.
+updateTask
+•	Descripción: Actualiza los detalles de una tarea existente.
+•	Método HTTP: PUT
+•	Ruta: /tasks/
+•	Parámetros:
+o	id (string): Identificador único de la tarea.
+o	title (string): Nuevo título de la tarea (opcional).
+o	description (string): Nueva descripción de la tarea (opcional).
+•	Respuestas:
+o	200 OK: Devuelve los detalles de la tarea actualizada.
+o	404 Not Found: Si la tarea no existe.
+deleteTask
+•	Descripción: Elimina una tarea existente.
+•	Método HTTP: DELETE
+•	Ruta: /tasks/
+•	Parámetros:
+o	id (string): Identificador único de la tarea.
+•	Respuestas:
+o	204 No Content: Confirma que la tarea ha sido eliminada con éxito.
+o	404 Not Found: Si la tarea no existe.
+
